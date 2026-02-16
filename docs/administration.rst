@@ -2455,6 +2455,9 @@ Vault
 
 Manual
 -----
+
+:Authors:
+    Philippe Desmarais <philippe.desmarais0trash@gmail.com>
 :Type:
     Issuer
 :Description:
