@@ -2454,7 +2454,7 @@ Vault
     Destination plugin to deploy certificates to Hashicorp Vault secret store.
 
 Manual
------
+------
 
 :Authors:
     Philippe Desmarais <philippe.desmarais0trash@gmail.com>
