@@ -57,19 +57,26 @@ class ManualIssuerPlugin(IssuerPlugin):
             f"Issuing new manual authority with options: {options}"
         )
 
-        plugin_options = options.get("plugin", {}).get("plugin_options")
-        if not plugin_options:
-            error = f"Invalid options for manual plugin: {options}"
-            current_app.logger.error(error)
-            raise InvalidConfiguration(error)
-
-        public_cert = None
-        for option in plugin_options:
-            if option.get("name") == "public_certificate":
-                public_cert = option.get("value")
+        plugin_options = get_plugin_options(options)
+        public_cert = get_option_pub_cert(plugin_options)
 
         roles = [
             {"username": "", "password": "", "name": options["name"] + "_admin"},
             {"username": "", "password": "", "name": options["name"] + "_operator"},
         ]
         return public_cert, None, None, roles
+
+def get_plugin_options(options):
+    plugin_options = options.get("plugin", {}).get("plugin_options")
+    if not plugin_options:
+        error = f"Invalid options for manual plugin: {options}"
+        current_app.logger.error(error)
+        raise InvalidConfiguration(error)
+    return plugin_options
+
+def get_option_pub_cert(plugin_options) -> Optional[str]:
+    public_cert = None
+    for option in plugin_options:
+        if option.get("name") == "public_certificate":
+            public_cert = option.get("value")
+    return public_cert
